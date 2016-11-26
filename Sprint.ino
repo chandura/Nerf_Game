@@ -6,6 +6,8 @@ void sprint (){
   long endTime = 0;
   long nextDisplay = 0;
   int elapseTime = 0;
+  int flashTime = 0;
+  int ledOn = 0;
   
   HallEffectValue = analogRead(HallEffectPin);
   Serial.print("Hall effect value " );
@@ -37,6 +39,7 @@ void sprint (){
   Serial.println(delayTime);
   delay(delayTime);
 
+  Serial.println("Active");
   digitalWrite(thereLED, HIGH);
  
   startTime = millis();
@@ -65,7 +68,25 @@ void sprint (){
   Serial.print("Stop " );
   Serial.println(HallEffectValue);
 
-  delay(30000);
+  flashTime = 0;
+  ledOn = 0;
+  while (flashTime < 30){
+    if (ledOn == 0) {
+      Serial.print("LED Off ");
+      Serial.println(flashTime);
+      digitalWrite(thereLED, LOW);
+      ledOn = 1;
+    }
+    else {
+      Serial.print("LED On ");
+      Serial.println(flashTime);
+      digitalWrite(thereLED, HIGH);
+      ledOn = 0;
+    }
+    delay(1000);
+    flashTime++;
+  }
+  //delay(30000);
   delayTime = 0;
   digitalWrite(thereLED, LOW);
 }
